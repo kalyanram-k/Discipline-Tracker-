@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Discipline | Coding Journal</title>
+  <style>
+    body {
+      background: #0f1115;
+      color: #eaeaea;
+      font-family: Arial, Helvetica, sans-serif;
+      padding: 30px;
+    }
+
+    h1 {
+      margin-bottom: 5px;
+    }
+
+    p {
+      color: #aaa;
+      margin-bottom: 25px;
+    }
+
+    .section {
+      background: #161a20;
+      padding: 20px;
+      border-radius: 12px;
+      margin-bottom: 25px;
+      border: 1px solid #222;
+    }
+
+    h2 {
+      color: #3a86ff;
+      margin-bottom: 15px;
+    }
+
+    label {
+      display: block;
+      margin-top: 10px;
+      font-size: 0.9rem;
+    }
+
+    input, textarea, select {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+      background: #0f1115;
+      border: 1px solid #333;
+      color: #eaeaea;
+      border-radius: 6px;
+    }
+
+    button {
+      margin-top: 15px;
+      padding: 10px 15px;
+      background: #3a86ff;
+      border: none;
+      color: white;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      opacity: 0.9;
+    }
+
+    .entry {
+      border-top: 1px solid #333;
+      padding-top: 10px;
+      margin-top: 10px;
+      font-size: 0.9rem;
+    }
+
+    footer {
+      margin-top: 40px;
+      font-size: 0.8rem;
+      color: #555;
+    }
+
+    a {
+      color: #3a86ff;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>💻 Coding Journal</h1>
+  <p>Track your learning, projects, bugs, and breakthroughs.</p>
+
+  <!-- Log a Coding Entry -->
+  <div class="section">
+    <h2>📝 Add Entry</h2>
+
+    <label>Date</label>
+    <input type="date" id="date">
+
+    <label>Project / Topic</label>
+    <input type="text" id="project" placeholder="React, Python, etc.">
+
+    <label>Type</label>
+    <select id="type">
+      <option>Learning</option>
+      <option>Bug / Issue</option>
+      <option>Feature / Task</option>
+      <option>Note / Tip</option>
+    </select>
+
+    <label>Details / Notes</label>
+    <textarea id="notes" rows="4" placeholder="Write what you did, fixed, learned..."></textarea>
+
+    <button onclick="saveEntry()">Save Entry</button>
+  </div>
+
+  <!-- Entry History -->
+  <div class="section">
+    <h2>📜 Entry History</h2>
+    <div id="entries"></div>
+  </div>
+
+  <footer>
+    Discipline • Coding Journal • Private Mode<br>
+    <a href="index.html">← Back to Dashboard</a>
+  </footer>
+
+  <script>
+    const entriesDiv = document.getElementById("entries");
+
+    function saveEntry() {
+      if (!date.value || !project.value) {
+        alert("Date and Project/Topic are required");
+        return;
+      }
+
+      const entry = {
+        date: date.value,
+        project: project.value,
+        type: type.value,
+        notes: notes.value
+      };
+
+      let entries = JSON.parse(localStorage.getItem("codingEntries")) || [];
+      entries.unshift(entry);
+      localStorage.setItem("codingEntries", JSON.stringify(entries));
+
+      notes.value = "";
+      renderEntries();
+    }
+
+    function renderEntries() {
+      let entries = JSON.parse(localStorage.getItem("codingEntries")) || [];
+      entriesDiv.innerHTML = "";
+
+      entries.forEach(e => {
+        entriesDiv.innerHTML += `
+          <div class="entry">
+            <strong>${e.date}</strong> — ${e.project} (${e.type})<br>
+            Notes: ${e.notes}
+          </div>
+        `;
+      });
+    }
+
+    renderEntries();
+  </script>
+
+</body>
+</html>

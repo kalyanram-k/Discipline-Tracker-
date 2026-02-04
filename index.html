@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Discipline</title>
+
+  <style>
+    :root {
+      --bg: #000000;
+      --card: #161a20;
+      --border: #222;
+      --text: #eaeaea;
+      --muted: #a1a1a1;
+      --accent: #3a86ff;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      padding: 40px;
+    }
+
+    /* ---------- HEADER ---------- */
+    header {
+      margin-bottom: 40px;
+    }
+
+    header h1 {
+      font-size: 2.6rem;
+      letter-spacing: 1px;
+    }
+
+    header p {
+      color: var(--muted);
+      margin-top: 8px;
+    }
+
+    /* ---------- DASHBOARD ---------- */
+    .dashboard {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 22px;
+    }
+
+    a.card {
+      background: var(--card);
+      padding: 26px;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      text-decoration: none;
+      color: inherit;
+      transition: 0.3s ease;
+      display: block;
+    }
+
+    a.card:hover {
+      transform: translateY(-6px) scale(1.01);
+      border-color: var(--accent);
+      box-shadow: 0 12px 30px rgba(58, 134, 255, 0.15);
+    }
+
+    .card h2 {
+      font-size: 1.25rem;
+      margin-bottom: 10px;
+    }
+
+    .card span {
+      font-size: 0.95rem;
+      color: var(--muted);
+      line-height: 1.4;
+    }
+
+    /* ---------- FOOTER ---------- */
+    .floating-footer {
+  position: fixed;
+  top: 75vh;
+  left: 50vw;
+
+  transform: translate(-50%, -50%);
+
+  margin: 0;
+  padding: 0;
+
+  width: fit-content;
+  height: fit-content;
+
+  white-space: nowrap;
+  font-size: 1.25rem;
+}
+
+
+
+  </style>
+</head>
+
+<body>
+<div style="
+      position: fixed;
+      bottom: 0;
+      right: 0;
+      width: 50vw;
+      height: 50vh;
+      background-image: url('itachi_bg.jpg');
+      background-repeat: no-repeat;
+      background-position: bottom right;
+      background-size: contain;
+
+      transform: scale(1.1);
+      transform-origin: bottom right;
+  "></div>
+
+
+  <!-- HEADER -->
+  <header>
+    <h1>Discipline</h1>
+    <p>Your private system for consistency, growth, and execution.</p>
+  </header>
+
+  <!-- DASHBOARD -->
+  <div class="dashboard">
+
+    <a href="gym.html" class="card">
+      <h2>🏋️ Gym Journal</h2>
+      <span>Track workouts, exercises, and physical discipline</span>
+    </a>
+
+    <a href="daily_journal.html" class="card">
+      <h2>📓 Daily Journal</h2>
+      <span>Thoughts, reflections, mindset, and lessons</span>
+    </a>
+
+    <a href="trading.html" class="card">
+      <h2>📈 Trading Journal</h2>
+      <span>Trades, rules, mistakes, and execution review</span>
+    </a>
+
+    <a href="coding.html" class="card">
+      <h2>💻 Coding Journal</h2>
+      <span>Learning progress, bugs, features, and notes</span>
+    </a>
+
+    <a href="road_map.html" class="card">
+      <h2>🗺️ Roadmaps</h2>
+      <span>Plans for body, mind, career, and skills</span>
+    </a>
+
+  </div>
+
+  <!-- FOOTER -->
+  <div class="floating-footer">
+  <strong>wake up to reality</strong>
+</div>
+
+    
+
+</body>
+</html>

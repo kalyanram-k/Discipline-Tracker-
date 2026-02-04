@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Discipline | Daily Journal</title>
+
+  <style>
+    :root {
+      --bg: #0f1115;
+      --card: #161a20;
+      --border: #222;
+      --text: #eaeaea;
+      --muted: #a1a1a1;
+      --accent: #3a86ff;
+      --danger: #ff4d4d;
+    }
+
+    * {
+      box-sizing: border-box;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      padding: 30px;
+      min-height: 100vh;
+    }
+
+    header {
+      margin-bottom: 30px;
+    }
+
+    header h1 {
+      font-size: 2rem;
+    }
+
+    header p {
+      color: var(--muted);
+      margin-top: 6px;
+    }
+
+    .section {
+      background: var(--card);
+      padding: 22px;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      margin-bottom: 30px;
+    }
+
+    h2 {
+      color: var(--accent);
+      margin-bottom: 15px;
+    }
+
+    label {
+      display: block;
+      margin-top: 14px;
+      font-size: 0.9rem;
+    }
+
+    textarea, select {
+      width: 100%;
+      margin-top: 6px;
+      padding: 10px;
+      background: var(--bg);
+      color: var(--text);
+      border: 1px solid #333;
+      border-radius: 8px;
+      resize: vertical;
+    }
+
+    button {
+      margin-top: 18px;
+      padding: 10px 18px;
+      background: var(--accent);
+      border: none;
+      color: white;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 0.9rem;
+    }
+
+    button:hover {
+      opacity: 0.9;
+    }
+
+    .entry {
+      border-top: 1px solid #333;
+      padding-top: 15px;
+      margin-top: 15px;
+      font-size: 0.9rem;
+      position: relative;
+    }
+
+    .entry small {
+      color: var(--muted);
+    }
+
+    .delete {
+      position: absolute;
+      right: 0;
+      top: 15px;
+      color: var(--danger);
+      cursor: pointer;
+      font-size: 0.85rem;
+    }
+
+    footer {
+      margin-top: 40px;
+      font-size: 0.8rem;
+      color: #555;
+    }
+
+    a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- HEADER -->
+  <header>
+    <h1>📓 Daily Journal</h1>
+    <p>Reflect. Record. Improve daily.</p>
+  </header>
+
+  <!-- ADD ENTRY -->
+  <div class="section">
+    <h2>📝 New Entry</h2>
+
+    <label>Mood</label>
+    <select id="mood">
+      <option>😊 Good</option>
+      <option>😐 Neutral</option>
+      <option>😔 Low</option>
+      <option>🔥 Focused</option>
+      <option>😤 Frustrated</option>
+    </select>
+
+    <label>What went right today?</label>
+    <textarea id="good" rows="3"></textarea>
+
+    <label>What went wrong?</label>
+    <textarea id="bad" rows="3"></textarea>
+
+    <label>Lesson / Reflection</label>
+    <textarea id="lesson" rows="3"></textarea>
+
+    <button onclick="saveEntry()">Save Entry</button>
+  </div>
+
+  <!-- HISTORY -->
+  <div class="section">
+    <h2>📜 Journal History</h2>
+    <div id="entries"></div>
+  </div>
+
+  <footer>
+    Discipline • Daily Journal • Private Mode<br>
+    <a href="index.html">← Back to Dashboard</a>
+  </footer>
+
+  <script>
+    const entriesDiv = document.getElementById("entries");
+
+    function saveEntry() {
+      const entry = {
+        id: Date.now(),
+        timestamp: new Date().toLocaleString(),
+        mood: mood.value,
+        good: good.value,
+        bad: bad.value,
+        lesson: lesson.value
+      };
+
+      let entries = JSON.parse(localStorage.getItem("dailyJournal")) || [];
+      entries.unshift(entry);
+      localStorage.setItem("dailyJournal", JSON.stringify(entries));
+
+      good.value = "";
+      bad.value = "";
+      lesson.value = "";
+
+      renderEntries();
+    }
+
+    function deleteEntry(id) {
+      let entries = JSON.parse(localStorage.getItem("dailyJournal")) || [];
+      entries = entries.filter(e => e.id !== id);
+      localStorage.setItem("dailyJournal", JSON.stringify(entries));
+      renderEntries();
+    }
+
+    function renderEntries() {
+      let entries = JSON.parse(localStorage.getItem("dailyJournal")) || [];
+      entriesDiv.innerHTML = "";
+
+      entries.forEach(e => {
+        entriesDiv.innerHTML += `
+          <div class="entry">
+            <span class="delete" onclick="deleteEntry(${e.id})">Delete</span>
+            <strong>${e.mood}</strong><br>
+            <small>${e.timestamp}</small><br><br>
+
+            <strong>Went Right:</strong><br>
+            ${e.good || "-"}<br><br>
+
+            <strong>Went Wrong:</strong><br>
+            ${e.bad || "-"}<br><br>
+
+            <strong>Lesson:</strong><br>
+            ${e.lesson || "-"}
+          </div>
+        `;
+      });
+    }
+
+    renderEntries();
+  </script>
+
+</body>
+</html>

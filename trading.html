@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Discipline | Trading Journal</title>
+  <style>
+    body {
+      background: #0f1115;
+      color: #eaeaea;
+      font-family: Arial, Helvetica, sans-serif;
+      padding: 30px;
+    }
+
+    h1 {
+      margin-bottom: 5px;
+    }
+
+    p {
+      color: #aaa;
+      margin-bottom: 25px;
+    }
+
+    .section {
+      background: #161a20;
+      padding: 20px;
+      border-radius: 12px;
+      margin-bottom: 25px;
+      border: 1px solid #222;
+    }
+
+    h2 {
+      color: #3a86ff;
+      margin-bottom: 15px;
+    }
+
+    ul {
+      padding-left: 20px;
+    }
+
+    li {
+      margin-bottom: 8px;
+    }
+
+    label {
+      display: block;
+      margin-top: 10px;
+      font-size: 0.9rem;
+    }
+
+    input, textarea, select {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+      background: #0f1115;
+      border: 1px solid #333;
+      color: #eaeaea;
+      border-radius: 6px;
+    }
+
+    button {
+      margin-top: 15px;
+      padding: 10px 15px;
+      background: #3a86ff;
+      border: none;
+      color: white;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      opacity: 0.9;
+    }
+
+    .trade {
+      border-top: 1px solid #333;
+      padding-top: 10px;
+      margin-top: 10px;
+      font-size: 0.9rem;
+    }
+
+    footer {
+      margin-top: 40px;
+      font-size: 0.8rem;
+      color: #555;
+    }
+
+    a {
+      color: #3a86ff;
+      text-decoration: none;
+    }
+   <a href="trading.html" class="card">
+  <h2>📈 Trading Journal</h2>
+  <span>Trades, rules, mistakes</span>
+</a>
+
+  </style>
+</head>
+<body>
+
+  <h1>📈 Trading Journal</h1>
+  <p>Execute rules. Record facts. Improve discipline.</p>
+
+  <!-- RULES -->
+  <div class="section">
+    <h2>📜 Trading Rules</h2>
+    <ul>
+      <li>Trade only my setup</li>
+      <li>Risk max 1–2% per trade</li>
+      <li>No revenge trading</li>
+      <li>Stop loss is mandatory</li>
+      <li>Journal every trade</li>
+    </ul>
+  </div>
+
+  <!-- TRADE FORM -->
+  <div class="section">
+    <h2>📝 Log a Trade</h2>
+
+    <label>Date</label>
+    <input type="date" id="date">
+
+    <label>Market</label>
+    <input type="text" id="market" placeholder="BTCUSDT / EURUSD / NIFTY">
+
+    <label>Direction</label>
+    <select id="direction">
+      <option>Long</option>
+      <option>Short</option>
+    </select>
+
+    <label>Result</label>
+    <select id="result">
+      <option>Win</option>
+      <option>Loss</option>
+      <option>Break-even</option>
+    </select>
+
+    <label>Reason / Notes</label>
+    <textarea id="notes" rows="3"></textarea>
+
+    <button onclick="saveTrade()">Save Trade</button>
+  </div>
+
+  <!-- TRADE LOG -->
+  <div class="section">
+    <h2>📊 Trade History</h2>
+    <div id="trades"></div>
+  </div>
+
+  <footer>
+    Discipline • Trading Journal • Private Mode<br>
+    <a href="index.html">← Back to Dashboard</a>
+  </footer>
+
+  <script>
+function saveTrade() {
+  if (!date.value || !market.value) {
+    alert("Date and Market are required");
+    return;
+  }
+
+  const trade = {
+    date: date.value,
+    market: market.value,
+    direction: direction.value,
+    result: result.value,
+    notes: notes.value
+  };
+
+  let trades = JSON.parse(localStorage.getItem("trades")) || [];
+  trades.unshift(trade);
+  localStorage.setItem("trades", JSON.stringify(trades));
+
+  // clear form
+  notes.value = "";
+  renderTrades();
+}
+
+function deleteTrade(index) {
+  let trades = JSON.parse(localStorage.getItem("trades")) || [];
+  trades.splice(index, 1); // remove the trade at given index
+  localStorage.setItem("trades", JSON.stringify(trades));
+  renderTrades();
+}
+
+function renderTrades() {
+  let trades = JSON.parse(localStorage.getItem("trades")) || [];
+  tradesDiv.innerHTML = "";
+
+  trades.forEach((t, i) => {
+    tradesDiv.innerHTML += `
+      <div class="trade">
+        <strong>${t.date}</strong> — ${t.market} (${t.direction})<br>
+        Result: ${t.result}<br>
+        Notes: ${t.notes}
+        <span style="float:right; cursor:pointer;" onclick="deleteTrade(${i})" title="Delete Trade">X</span>
+      </div>
+    `;
+  });
+}
+
+const tradesDiv = document.getElementById("trades");
+renderTrades();
+</script>
+
